@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Playwright Test (TypeScript)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/playwright/cli.js",
+      "args": [
+        "test",
+        "${file}"              // run the current file in editor
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": [
+        "<node_internals>/**",
+        "node_modules/**"
+      ]
+    },
+    {
+      "name": "Debug Playwright (current file)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
+      "args": [
+        "${file}",
+        "--project=chromium"
+      ],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

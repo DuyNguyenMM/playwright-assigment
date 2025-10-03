@@ -1,0 +1,20 @@
+{
+    "login_1_001": {
+        "input": {
+            "gender": "Female",
+            "firstName": "Geoffrey",
+            "lastName": "Jakubowski",
+            "email": "Shaina_Nolan@gmail.com",
+            "companyName": "Friesen, Franey and Nicolas",
+            "newsLetter": true,
+            "password": "sI8g*o&q18^1aeBR",
+            "confirmPassword": "$value=login_1_001>input>password",
+            "recoveryEmail": "$value=login_1_001>input>email"
+
+        },
+        "expected": {
+            "recoverySuccessMessage": "Email with instructions has been sent to you.",
+            "registerSuccessMessage": "Your registration completed"
+        }
+    }
+}

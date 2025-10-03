@@ -1,0 +1,20 @@
+{
+    "login_1_001": {
+        "input": {
+            "gender": "$random_gender",
+            "firstName": "$random_firstname",
+            "lastName": "$random_lastname",
+            "email": "$random_email",
+            "companyName": "$random_company_name",
+            "newsLetter": true,
+            "password": "$random_password",
+            "confirmPassword": "$value=login_1_001>input>password",
+            "recoveryEmail": "$value=login_1_001>input>email"
+
+        },
+        "expected": {
+            "recoverySuccessMessage": "Email with instructions has been sent to you.",
+            "registerSuccessMessage": "Your registration completed"
+        }
+    }
+}

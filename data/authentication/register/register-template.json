@@ -1,0 +1,35 @@
+{
+    "register_1_001": {
+        "input": {
+            "gender": "$random_gender",
+            "firstName": "$random_firstname",
+            "lastName": "$random_lastname",
+            "email": "$random_email",
+            "companyName": "$random_company_name",
+            "newsLetter": true,
+            "password": "$random_password",
+            "confirmPassword": "$value=register_1_001>input>password"
+        },
+        "expected": {
+            "message": "Your registration completed",
+            "userInfo": {
+                "gender": "$value=register_1_001>input>gender",
+                "firstName": "$value=register_1_001>input>firstName",
+                "lastName": "$value=register_1_001>input>lastName",
+                "email": "$value=register_1_001>input>email",
+                "companyName": "$value=register_1_001>input>companyName",
+                "newsLetter": true,
+                "password": "$value=register_1_001>input>password",
+                "confirmPassword": "$value=register_1_001>input>password"
+            }
+        }
+    },
+    "register_1_002": {
+        "input": {
+            "gender": "$random_gender"
+        },
+        "expected": {
+            "message": "Your registrati2on completed"
+        }
+    }
+}
