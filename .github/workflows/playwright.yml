@@ -58,6 +58,18 @@ jobs:
       run: |
         set -o errexit
         set -o pipefail
+
+        echo "=== Checking JSON report file ==="
+        if [ ! -f "test-results/report.json" ]; then
+          echo "⚠️  File not found: test-results/report.json"
+          echo "Listing directory contents for debug:"
+          ls -R
+          echo "Maybe Playwright didn’t generate the report?"
+          exit 1
+        fi
+
+        echo "✅ JSON report found"
+
         # Build login payload safely with jq
         login_payload=$(jq -n --arg email "$API_USERNAME" --arg password "$API_PASSWORD" \
           '{email: $email, password: $password}')
