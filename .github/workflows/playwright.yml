@@ -45,7 +45,7 @@ jobs:
         echo "Step 1: Get access token from login API"
         response=$(curl -s -X POST "$API_LOGIN_URL" \
           -H "Content-Type: application/json" \
-          -d '{"username":"'"$API_USERNAME"'","password":"'"$API_PASSWORD"'"}')
+          -d '{"email":"'"$API_USERNAME"'","password":"'"$API_PASSWORD"'"}')
         
         # Extract access token (assumes JSON response like {"access_token":"TOKEN_VALUE"})
         ACCESS_TOKEN=$(echo $response | jq -r '.access_token')
