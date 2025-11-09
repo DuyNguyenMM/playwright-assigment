@@ -119,6 +119,6 @@ jobs:
           -H "Authorization: Bearer $ACCESS_TOKEN" \
           -F "project_id=$PROJECT_ID" \
           -F "report_type=original_playwright_json" \
-          -F "file=@test-result/report.json"
+          -F "file=@test-results/report.json"
 
         echo "=== Upload finished ==="
