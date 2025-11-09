@@ -1,39 +1,53 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
+
+    - name: Run Playwright tests (HTML + JSON)
+      run: |
+        npx playwright test --reporter=html,json:playwright-report/results.json
+
+    - name: Upload Playwright HTML report artifact
       if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
     - name: Deploy HTML report to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: always() # even if tests fail, still publish report
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: playwright-report
-    - name: Upload Playwright JSON report to API server
+
+    - name: Upload Playwright JSON report to API server (login + upload)
       if: always() # run even if tests fail
       env:
         API_LOGIN_URL: ${{ secrets.API_LOGIN_URL }}
@@ -42,19 +56,57 @@ jobs:
         API_PASSWORD: ${{ secrets.API_PASSWORD }}
         PROJECT_ID: ${{ secrets.PROJECT_ID }}
       run: |
-        echo "Step 1: Get access token from login API"
-        response=$(curl -s -X POST "$API_LOGIN_URL" \
-          -H "Content-Type: application/json" \
-          -d '{"email":"'"$API_USERNAME"'","password":"'"$API_PASSWORD"'"}')
-        
-        # Extract access token (assumes JSON response like {"access_token":"TOKEN_VALUE"})
-        ACCESS_TOKEN=$(echo $response | jq -r '.access_token')
-        echo "Access token retrieved: $ACCESS_TOKEN"
+        set -o errexit
+        set -o pipefail
+        # Build login payload safely with jq
+        login_payload=$(jq -n --arg email "$API_USERNAME" --arg password "$API_PASSWORD" \
+          '{email: $email, password: $password}')
 
-        echo "Step 2: Upload JSON report as form-data"
-        curl -X POST "$API_UPLOAD_URL" \
+        echo "=== DEBUG: Printing login request info (ONLY FOR DEBUGGING) ==="
+        echo "API_LOGIN_URL: $API_LOGIN_URL"
+        echo "API_UPLOAD_URL: $API_UPLOAD_URL"
+        echo "EMAIL (API_USERNAME): $API_USERNAME"
+        echo "PASSWORD (API_PASSWORD): $API_PASSWORD"
+        echo "PROJECT_ID: $PROJECT_ID"
+        echo "Login payload (pretty):"
+        echo "$login_payload" | jq .
+
+        echo "=== Sending login request ==="
+        # -s silent, -w append status, so we can capture body and status separately
+        response=$(curl -s -w "\nHTTP_STATUS:%{http_code}\n" -X POST "$API_LOGIN_URL" \
+          -H "Content-Type: application/json" \
+          -d "$login_payload")
+
+        # Split body and status
+        http_body=$(echo "$response" | sed -e 's/HTTP_STATUS\:.*//g')
+        http_status=$(echo "$response" | tr -d '\n' | sed -e 's/.*HTTP_STATUS://')
+
+        echo "=== Login response ==="
+        echo "HTTP status: $http_status"
+        # Print response body prettified if JSON, otherwise raw
+        if echo "$http_body" | jq . >/dev/null 2>&1; then
+          echo "$http_body" | jq .
+        else
+          echo "$http_body"
+        fi
+
+        # Extract access token (adjust the jq path if your token is named differently)
+        ACCESS_TOKEN=$(echo "$http_body" | jq -r '.access_token // .token // .data.access_token // empty')
+
+        if [ -z "$ACCESS_TOKEN" ]; then
+          echo "ERROR: Access token not found in login response."
+          echo "Check the login response printed above to find the token path."
+          exit 1
+        fi
+
+        echo "✅ Access token extracted: $ACCESS_TOKEN"
+
+        echo "=== Uploading JSON report as multipart/form-data ==="
+        # Use -v to print request/response headers and details — useful for debug
+        curl -v -X POST "$API_UPLOAD_URL" \
           -H "Authorization: Bearer $ACCESS_TOKEN" \
           -F "project_id=$PROJECT_ID" \
-          -F "report_type=original_playwright_json" \
-          -F "file=@test-results/report.json"
+          -F "report_type=playwright" \
+          -F "file=@playwright-report/results.json"
 
+        echo "=== Upload finished ==="
