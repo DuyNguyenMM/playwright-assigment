@@ -1,13 +1,13 @@
 {
     "login_1_001": {
         "input": {
-            "gender": "Female",
-            "firstName": "Geoffrey",
-            "lastName": "Jakubowski",
-            "email": "Shaina_Nolan@gmail.com",
-            "companyName": "Friesen, Franey and Nicolas",
+            "gender": "Male",
+            "firstName": "Jovani",
+            "lastName": "Stanton",
+            "email": "Ubaldo_Powlowski42@hotmail.com",
+            "companyName": "Herzog - Bahringer",
             "newsLetter": true,
-            "password": "sI8g*o&q18^1aeBR",
+            "password": "rdg1e0D&kVPQ0$BL",
             "confirmPassword": "$value=login_1_001>input>password",
             "recoveryEmail": "$value=login_1_001>input>email"
 

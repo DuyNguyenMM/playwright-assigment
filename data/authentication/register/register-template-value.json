@@ -2,12 +2,12 @@
     "register_1_001": {
         "input": {
             "gender": "Female",
-            "firstName": "Oren",
-            "lastName": "Brekke",
-            "email": "Felix.Leannon@gmail.com",
-            "companyName": "Rogahn - Dare",
+            "firstName": "Raleigh",
+            "lastName": "Nienow-Yundt",
+            "email": "Jennings21@yahoo.com",
+            "companyName": "Prosacco - Langworth",
             "newsLetter": true,
-            "password": "nnjXSP6uABqgazro",
+            "password": "ODe9xj2lcIa!szUw",
             "confirmPassword": "$value=register_1_001>input>password"
         },
         "expected": {

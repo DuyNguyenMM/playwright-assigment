@@ -33,3 +33,28 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: playwright-report
+    - name: Upload Playwright JSON report to API server
+      if: always() # run even if tests fail
+      env:
+        API_LOGIN_URL: ${{ secrets.API_LOGIN_URL }}
+        API_UPLOAD_URL: ${{ secrets.API_UPLOAD_URL }}
+        API_USERNAME: ${{ secrets.API_USERNAME }}
+        API_PASSWORD: ${{ secrets.API_PASSWORD }}
+        PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      run: |
+        echo "Step 1: Get access token from login API"
+        response=$(curl -s -X POST "$API_LOGIN_URL" \
+          -H "Content-Type: application/json" \
+          -d '{"username":"'"$API_USERNAME"'","password":"'"$API_PASSWORD"'"}')
+        
+        # Extract access token (assumes JSON response like {"access_token":"TOKEN_VALUE"})
+        ACCESS_TOKEN=$(echo $response | jq -r '.access_token')
+        echo "Access token retrieved: $ACCESS_TOKEN"
+
+        echo "Step 2: Upload JSON report as form-data"
+        curl -X POST "$API_UPLOAD_URL" \
+          -H "Authorization: Bearer $ACCESS_TOKEN" \
+          -F "project_id=$PROJECT_ID" \
+          -F "report_type=original_playwright_json" \
+          -F "file=@playwright-report/results.json"
+

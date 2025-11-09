@@ -35,4 +35,12 @@ export class DashboardActions {
     async clickOnProductLinkFromSearchResult(productName: string) {
         await this.page.locator(locators.searchResultDropdownList).locator(`span:has-text(${productName})`).click();
     }
+
+    async hoverToParentMenuItem(parentItem: string) {
+        await this.page.getByRole('link', {name: parentItem}).hover();
+    }
+
+    async clickItemFromProductMenu(menuItem: string) {
+        await this.page.getByRole('link', {name: menuItem}).click();
+    }
 }

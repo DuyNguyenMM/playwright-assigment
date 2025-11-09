@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { locators } from "./locators";
 import { IRegisterForm } from "./interface";
-import { LocatorHandler } from "../../../utils/locatorHandler";
+import { LocatorHandler } from "../../../utils/locator-handler";
 import { RegisterActions } from "./actions";
 
 export class RegisterPage{

@@ -138,9 +138,7 @@ const parseValueFromJsonPath = (dataFilePath: string): string => {
 const generateData = (templateName: string) => {
     const convertedJsonString = readTemplate(templateName);
     const dataFilePath = reGenerateDataFile(convertedJsonString, templateName);
-
     const finalData = parseValueFromJsonPath(dataFilePath);
-    console.log((finalData));
     const path = dataFilePath.replace('-template-value', '');
     fs.writeFileSync(path, (finalData), 'utf8');  
     return JSON.parse(convertedJsonString);

@@ -26,4 +26,10 @@ export class DashboardPage {
     async selectProductFromSearchResult(productName: string){
         await this.dasboardActions.clickOnProductLinkFromSearchResult(productName);
     }
+
+    async selectProductCategoryFromMenu(parentItem: string, childItem: string){
+        await this.dasboardActions.hoverToParentMenuItem(parentItem);
+        await this.dasboardActions.clickItemFromProductMenu(childItem);
+        await this.page.waitForLoadState('networkidle');
+    }
 }

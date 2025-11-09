@@ -42,10 +42,17 @@ test.describe('Product Tests', { tag: ['@product'] }, () => {
         testData = {};
     });
 
-    test('Verify that user can search existing product succeesfully', { tag: ["@product_1_001"] }, async ({ page }) => {
+    test('Verify that user can search existing product succeesfully', { tag: ["@search_1_001"] }, async () => {
         const expectedProductInfo = [testData['expected']];
         await dashboardPage.searchProduct(testData['input']['search']);
         await dashboardPage.selectProductFromSearchResultPage(testData['input']['search']);
         await productPage.verifyThatProductInformationShouldBeLoadedSuccessfully(expectedProductInfo)
+    })
+
+    test('Verify that user can view list product by sort price low to high ', { tag: ["@view_product_1_001"] }, async () => {
+        await dashboardPage.selectProductCategoryFromMenu('Computers', 'Notebooks');
+        await productPage.selectSortOptionToViewProduct('Price: Low to High');
+        await productPage.waitForProductLoading();
+        await productPage.verifyListOfProductShouldBeLoaded();
     })
 });

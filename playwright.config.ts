@@ -25,7 +25,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     baseURL: process.env.BASE_URL || 'https://demo.nopcommerce.com/',
-    headless: true,
+    headless: false,
   },
   reporter: [
     ['html', { open: 'never' }],

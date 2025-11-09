@@ -1,6 +1,5 @@
 import { expect, Page } from "@playwright/test";
 import { ProductActions } from "./actions";
-import { ItemName } from "./schema";
 
 export class ProductPage {
     readonly page: Page;
@@ -13,8 +12,21 @@ export class ProductPage {
 
     async verifyThatProductInformationShouldBeLoadedSuccessfully(productInfo: Record<string, string>[]){
         const actualProductInfo = await this.productActions.getProductDetail();
-        console.log(actualProductInfo)
-        console.log(productInfo)
         expect(actualProductInfo).toEqual(productInfo);
     }
+
+    async selectSortOptionToViewProduct(sortOption: string) {
+        await this.productActions.selectSortOption(sortOption);
+    }
+
+    async waitForProductLoading(){
+        expect(await this.productActions.getLoadProductStatus()).toEqual('loading');
+        await this.productActions.waitForProductLoaded()
+    }
+
+    async verifyListOfProductShouldBeLoaded(){
+        const actualListProduct = await this.productActions.getListProduct();
+        console.log(actualListProduct)
+    }
+
 }

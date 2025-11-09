@@ -11,4 +11,5 @@ export const locators = {
     searchResultTitle: '.product-title',
     searchTextfield: '#small-searchterms',
     searchResultDropdownList: '//div[contains(@class, "search-box")]/ul',
+    menuItem: (itemName: string) => `//ul[contains(@class, 'top-menu')]/li[]`
 }

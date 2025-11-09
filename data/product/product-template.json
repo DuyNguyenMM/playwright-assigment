@@ -1,5 +1,5 @@
 {
-    "product_1_001": {
+    "search_1_001": {
         "input": {
             "search": "Apple MacBook Pro"
         },
@@ -11,5 +11,39 @@
             "productAdditionalDetail": "SKU: AP_MBP_13",
             "productMinQuantity": "This product has a minimum quantity of 2"
         }
+    },
+    "view_product_1_001": {
+        "expectedProducts": [
+            {
+                "title": "HP Spectre XT Pro UltraBook",
+                "rating": "4",
+                "price": "$1,350.00"
+            },
+            {
+                "title": "Lenovo Thinkpad Carbon Laptop",
+                "rating": "4",
+                "price": "$1,360.00"
+            },
+            {
+                "title": "HP Envy 15.6-Inch Sleekbook",
+                "rating": "4",
+                "price": "$1,460.00"
+            },
+            {
+                "title": "Asus Laptop",
+                "rating": "5",
+                "price": "$1,500.00"
+            },
+            {
+                "title": "Samsung Premium Ultrabook",
+                "rating": "4",
+                "price": "$1,590.00"
+            },
+            {
+                "title": "Apple MacBook Pro",
+                "rating": "5",
+                "price": "$1,800.00"
+            }
+        ]
     }
 }
