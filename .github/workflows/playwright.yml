@@ -30,7 +30,7 @@ jobs:
 
     - name: Run Playwright tests (HTML + JSON)
       run: |
-        npx playwright test --reporter=html,json:playwright-report/results.json
+        npm run test
 
     - name: Upload Playwright HTML report artifact
       if: ${{ !cancelled() }}

@@ -2,12 +2,12 @@
     "login_1_001": {
         "input": {
             "gender": "Male",
-            "firstName": "Jovani",
-            "lastName": "Stanton",
-            "email": "Ubaldo_Powlowski42@hotmail.com",
-            "companyName": "Herzog - Bahringer",
+            "firstName": "Haylie",
+            "lastName": "Dietrich",
+            "email": "Kathleen_Grady42@hotmail.com",
+            "companyName": "Bergnaum - Wilkinson",
             "newsLetter": true,
-            "password": "rdg1e0D&kVPQ0$BL",
+            "password": "W2UL2Lss5N2BJsY!",
             "confirmPassword": "$value=login_1_001>input>password",
             "recoveryEmail": "$value=login_1_001>input>email"
 
