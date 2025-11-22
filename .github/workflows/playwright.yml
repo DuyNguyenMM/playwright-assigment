@@ -40,6 +40,13 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
+    - name: Upload Test Results (JSON, trace, videos)
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: test-results/
+        retention-days: 30
+
     - name: Deploy HTML report to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: always() # even if tests fail, still publish report
