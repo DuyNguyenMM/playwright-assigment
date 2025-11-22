@@ -41,6 +41,7 @@ jobs:
         retention-days: 30
 
     - name: Upload Test Results (JSON, trace, videos)
+      if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
       with:
         name: test-results
